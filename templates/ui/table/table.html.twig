@@ -1,0 +1,89 @@
+<table class="w-full p-3 align-middle text-dark border-neutral-200 bg-panel-50 "
+        data-table-target="table"
+>
+    {% block tableContent %}
+        <table 
+            class="w-full p-3 align-middle text-dark border-neutral-200 bg-panel-50 shadow"
+            data-table-target="table"
+        >
+            <thead class="align-bottom">
+                <tr class="font-semibold text-[0.95rem]">
+                    {% for col in tableColumns %}
+                        <th scope="col" class="text-slate-500 text-start">
+                            <span role="button" class="{{col.class}} px-2 dropdown-toggle text-decoration-none text-dark flex justify-center items-center" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ col.label }}
+                            </span>
+                            {# <ul class="dropdown-menu shadow-sm">
+                                {% for sub in col.sort %}
+                                    <li>
+                                        <button 
+                                            class="dropdown-item d-flex justify-content-between item-center" 
+                                            data-action="click->table#resolveColumnSorting"
+                                            data-item-url-param="{{ path('app_user', {'page': currentPage, 'size': size}) }}"
+                                            data-item-id-param="{{ col.id }}"
+                                            data-item-payload-param="{{ sub.action }}"
+                                        >
+                                            {{ sub.label }} {{ sub.icon | raw }}
+                                        </button>
+                                    </li>
+                                {% endfor %}
+                            </ul> #}
+                        </th>
+                    {% endfor %}
+                    <th scope="col" class="pb-3  text-panel-500 text-start">
+                        Options
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr id="target_row_{{ user.id }}" class="{% if (user.disabled) %} table-danger text-danger-500 {% endif %}">
+                        <td class="font-bold text-panel-500 text-center">
+                            {{ user.id }}
+                        </td>
+                        <td class="text-center">
+                            {{ user.firstname }}
+                        </td>
+                        <td class="text-center">
+                            {{ user.lastname }}
+                        </td>
+                        <td class="text-center">
+                            {{ user.email }}
+                        </td>
+                        <td>
+                            <span class="flex justify-center items-center">
+                                {% if user.banned %}
+                                {% include "ui/badge/danger.html.twig" with {'label' : 'BAN'} %}
+                            {% else %} 
+                                {% include "ui/badge/success.html.twig" with {'label' : 'RAS'} %}
+                            {% endif %}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            {{ user.createdAt|date('d/m/Y H:i:s') }}
+                        </td>
+                        <td class="text-center">
+                            {{ user.updatedAt|date('d/m/Y H:i:s') }}
+                        </td>
+                        <td>
+                            <button 
+                                class="btn btn-sm btn-primary shadow mx-1">
+                                <i class="bi bi-pencil-fill"></i>
+                            </button>
+                            <a 
+                                data-action="click->table#setLoading"
+                                href="{{ path('app_user_toggle', {'page': currentPage, 'user_id' : user.id}) }}" 
+                                class="shadow-sm border-white btn btn-sm mx-1 {% if not (user.disabled) %} btn-danger {% else %} btn-warning {% endif %}">
+                                {% if not (user.disabled) %}
+                                    <i class="bi bi-trash3-fill"></i>
+                                {% else %}
+                                    <i class="bi bi-recycle"></i>
+                                {% endif %}
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}
+</table>
