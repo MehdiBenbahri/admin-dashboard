@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.btn {
+    @apply py-2 px-4 rounded;
+}
+
+.btn-sm {
+    @apply py-1 px-2 rounded;
+}
+
+.btn-primary {
+    @apply bg-primary-500 text-neutral-100 transition-all;
+}
+.btn-primary:hover {
+    @apply bg-primary-600 transition-all;
+}
+
+.btn-danger {
+    @apply bg-danger-500 text-neutral-100 transition-all;
+}
+.btn-danger:hover {
+    @apply bg-danger-600 transition-all;
+}
+
+.btn-warning {
+    @apply bg-warning-500 text-neutral-100 transition-all;
+}
+.btn-warning:hover {
+    @apply bg-warning-600 transition-all;
+}
+
+.btn-secondary {
+    @apply bg-secondary-500 text-neutral-100 transition-all;
+}
+.btn-secondary:hover {
+    @apply bg-secondary-700 transition-all;
+}
+
+.btn-light {
+    @apply bg-panel-50 text-neutral-900 transition-all border border-panel-200;
+}
+.btn-light:hover {
+    @apply bg-panel-200 transition-all border-panel-300;
+}
+
+.disabled {
+    @apply opacity-50 cursor-default pointer-events-none;
+}
+
+.table-danger {
+    @apply bg-danger-50 ;
+}
