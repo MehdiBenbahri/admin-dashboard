@@ -1,5 +1,7 @@
 <?php 
 
+use Utils\TableColumn;
+
 class Sort {
 
     private string $label;

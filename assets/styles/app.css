@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body{
-    background-color: #E8E8E8;
+    @apply bg-neutral-200 text-slate-800 transition-all
 }
 
 .wrapper {
@@ -28,5 +28,13 @@ html, body{
 }
 
 td, th {
-    vertical-align: middle;
+    @apply py-1 border-b border-b-neutral-200 align-middle;
+}
+
+table {
+    @apply text-slate-900;
+}
+
+select {
+    @apply p-2 rounded-md;
 }

@@ -52,3 +52,7 @@
 .table-danger {
     @apply bg-danger-50 ;
 }
+
+.link {
+    @apply text-primary-600 underline;
+}

@@ -5,6 +5,7 @@
 {% block body %}
 
 <div id="turbo-user-table" >
+    {% include "ui/flash/flash.html.twig" %}
     <div class="wrapper relative" data-controller="table">
         {% include "ui/loader/square.html.twig" %}
         {% include "ui/table/pagination.html.twig" with {allowedTableSize, currentPage, size, nbPage} %}

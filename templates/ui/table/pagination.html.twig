@@ -1,6 +1,6 @@
 <div class="flex justify-between align-center my-3">
 
-    <select onchange="tableSizeChange('{{ path('app_user') }}', this, {{ currentPage }})" class="form-select shadow bg-light w-fit">
+    <select onchange="tableSizeChange('{{ path('app_user') }}', this, {{ currentPage }})" class="form-select to-load shadow bg-light w-fit">
         {% for allowedSize in allowedTableSize %}
             <option value="{{ allowedSize }}" {% if size == allowedSize %} selected {% endif %}>{{ allowedSize }}</option>
         {% endfor %}
@@ -9,10 +9,9 @@
     <div class="flex justify-between align-center">
         
         <a  role="button" 
-            data-action="click->table#setLoading" 
             href="{{ path('app_user', {'page': 1, 'size' : size}) }}" 
             draggable="false"
-            class="btn btn-light shadow me-1 {% if (currentPage == (1)) %} disabled {% endif %}">
+            class="btn btn-light shadow me-1 to-load {% if (currentPage == (1)) %} disabled {% endif %}">
             <i class="bi bi-chevron-double-left"></i>
         </a>
 
@@ -20,10 +19,9 @@
 
             {% if (i + 1 > 0) and (i + 1 <= nbPage)  %}
                 <a  role="button" 
-                    data-action="click->table#setLoading"
                     href="{{ path('app_user', {'page': i + 1, 'size' : size}) }}" 
                     draggable="false" 
-                    class="btn btn-light shadow mx-1 {% if (currentPage == (i + 1)) %} bg-primary disabled {% else %} bg-light {% endif %}">
+                    class="btn btn-light shadow mx-1 to-load {% if (currentPage == (i + 1)) %} bg-primary disabled {% else %} bg-light {% endif %}">
                     {{ i + 1 }}
                 </a>
             {% endif %}
@@ -31,10 +29,9 @@
         {% endfor %}
         
         <a  role="button" 
-            data-action="click->table#setLoading" 
             href="{{ path('app_user', {'page': nbPage, 'size' : size}) }}" 
             draggable="false" 
-            class="btn btn-light shadow ms-1 {% if (currentPage == (nbPage)) %} disabled {% endif %}">
+            class="btn btn-light shadow ms-1 to-load {% if (currentPage == (nbPage)) %} disabled {% endif %}">
             <i class="bi bi-chevron-double-right"></i>
         </a>
     </div>

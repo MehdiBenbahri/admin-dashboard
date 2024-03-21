@@ -9,9 +9,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Turbo\TurboBundle;
+use Utils\TableColumn;
+use Utils\Sort;
 
 class UserController extends AbstractController
 {
+
     #[Route('/user', name: 'app_user')]
     public function index(UserRepository $userRepo, Request $request): Response
     {
@@ -21,63 +24,22 @@ class UserController extends AbstractController
         $sortCol = $request->query->get('sort-col');
         $sortAction = $request->query->get('sort-action');
 
+        $sortAsc = new \Sort('Croissant', 'asc', '<i class="bi bi-sort-alpha-down"></i>');
+        $sortDesc = new \Sort('Décroissant', 'desc', '<i class="bi bi-sort-alpha-up"></i>');
+
         $basicSort = [
-            [
-                'label' => 'Croissant',
-                'action' => 'asc',
-                'icon' => '<i class="bi bi-sort-alpha-down"></i>'
-            ],
-            [
-                'label' => 'Décroissant',
-                'action' => 'desc',
-                'icon' => '<i class="bi bi-sort-alpha-up"></i>'
-            ]
+            $sortAsc,
+            $sortDesc
         ];
 
         $tableColumns = [
-            [
-                'id' => 'id',
-                'label' => '#',
-                'sort' => $basicSort,
-                'activated' => false,
-                'class' => 'text-center'
-            ],
-            [
-                'id' => 'firstname',
-                'label' => 'Firstname',
-                'sort' => $basicSort,
-                'class' => 'text-center'
-            ],
-            [
-                'id' => 'lastname',
-                'label' => 'Lastname',
-                'sort' => $basicSort,
-                'class' => 'text-center'
-            ],
-            [
-                'id' => 'email',
-                'label' => 'Email',
-                'sort' => $basicSort,
-                'class' => 'text-center'
-            ],
-            [
-                'id' => 'banned',
-                'label' => 'Banned',
-                'sort' => $basicSort,
-                'class' => 'text-center'
-            ],
-            [
-                'id' => 'created',
-                'label' => 'Created',
-                'sort' => $basicSort,
-                'class' => 'text-center'
-            ],
-            [
-                'id' => 'updated',
-                'label' => 'Updated',
-                'sort' => $basicSort,
-                'class' => 'text-center'
-            ]
+            new TableColumn('id', '#', 'text-center', true, $basicSort),
+            new TableColumn('firstname', 'Firstname', 'text-center', true, $basicSort),
+            new TableColumn('lastname', 'Lastname', 'text-center', true, $basicSort),
+            new TableColumn('email', 'Email', 'text-center', true, $basicSort),
+            new TableColumn('banned', 'Banned', 'text-center', true, $basicSort),
+            new TableColumn('created', 'Created', 'text-center', true, $basicSort),
+            new TableColumn('updated', 'Updated', 'text-center', true, $basicSort)
         ];
         
 
@@ -103,7 +65,6 @@ class UserController extends AbstractController
     #[Route('/toggle-user', name: 'app_user_toggle')]
     public function toggleUser(UserRepository $userRepo, Request $request, EntityManagerInterface $em): Response
     {
-
         $userId = $request->query->get('user_id');
         $page = $request->query->get('page');
 
@@ -117,8 +78,15 @@ class UserController extends AbstractController
 
             $request->setRequestFormat(TurboBundle::STREAM_FORMAT);
 
+            $type = 'success';
+            $message = 'Utilisateur désactivé';
+
+            $this->addFlash('success', $message);
+
             return $this->render('turbo/refresh_row.html.twig', [
-                'rowId' => $userId
+                'rowId' => $userId,
+                'message' => $message,
+                'type' => $type
             ]);
 
         }
