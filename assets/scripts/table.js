@@ -1,7 +1,10 @@
-const tableTarget = document.querySelector('table');
-const spinnerTarget = document.getElementById('spinner');
+
 
 function toggleLoading(toggle) {
+
+    const tableTarget = document.querySelector('table');
+    const spinnerTarget = document.getElementById('spinner');
+
     if (toggle){
         tableTarget.classList.add('loading');
         spinnerTarget.classList.remove('hidden');
@@ -11,6 +14,11 @@ function toggleLoading(toggle) {
         spinnerTarget.classList.add('hidden');
     }
 }
+
+document.addEventListener('turbo:before-prefetch', (event) => {
+    event.preventDefault();
+    Turbo.cache.clear();
+});
 
 document.addEventListener('turbo:before-visit', (event) => {
     toggleLoading(true);

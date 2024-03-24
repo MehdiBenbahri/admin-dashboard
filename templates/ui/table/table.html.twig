@@ -66,19 +66,22 @@
                             {{ user.updatedAt|date('d/m/Y H:i:s') }}
                         </td>
                         <td>
-                            <button 
-                                class="btn btn-sm btn-primary shadow mx-1">
-                                <i class="bi bi-pencil-fill"></i>
-                            </button>
-                            <a 
-                                href="{{ path('app_user_toggle', {'page': currentPage, 'user_id' : user.id}) }}" 
-                                class="shadow-sm border-white btn btn-sm mx-1 to-load {% if not (user.disabled) %} btn-danger {% else %} btn-warning {% endif %}">
-                                {% if not (user.disabled) %}
-                                    <i class="bi bi-trash3-fill"></i>
-                                {% else %}
-                                    <i class="bi bi-recycle"></i>
-                                {% endif %}
-                            </a>
+                            <turbo-frame id="alter_user_{{ user.id }}">
+                                <button 
+                                    class="btn btn-sm btn-primary shadow mx-1">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+                                <a 
+                                    href="{{ path('app_user_toggle', {'page': currentPage, 'user_id' : user.id}) }}"
+                                    data-turbo-frame="_top"
+                                    class="shadow-sm border-white btn btn-sm mx-1 to-load {% if not (user.disabled) %} btn-danger {% else %} btn-warning {% endif %}">
+                                    {% if not (user.disabled) %}
+                                        <i class="bi bi-trash3-fill"></i>
+                                    {% else %}
+                                        <i class="bi bi-recycle"></i>
+                                    {% endif %}
+                                </a>
+                            </turbo-frame>
                         </td>
                     </tr>
                 {% endfor %}
