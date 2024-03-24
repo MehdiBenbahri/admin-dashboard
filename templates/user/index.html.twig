@@ -7,7 +7,7 @@
 <div id="turbo-user-table" >
     {% include "ui/flash/flash.html.twig" %}
     <div class="wrapper relative" data-controller="table">
-        <div id="cover">
+        <div id="cover" class="w-full">
             {% include "ui/loader/round.html.twig" %}
             {% include "ui/table/pagination.html.twig" with {allowedTableSize, currentPage, size, nbPage} %}
             {% include "ui/table/table.html.twig" with {tableColumns, currentPage, users, size, nbPage} %}

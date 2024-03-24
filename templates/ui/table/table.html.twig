@@ -60,10 +60,14 @@
                             </span>
                         </td>
                         <td class="text-center">
-                            {{ user.createdAt|date('d/m/Y H:i:s') }}
+                            {{ user.createdAt|date('d/m/Y') }}
+                            <br>
+                            {{ user.createdAt|date('H:i:s') }}
                         </td>
                         <td class="text-center">
-                            {{ user.updatedAt|date('d/m/Y H:i:s') }}
+                            {{ user.updatedAt|date('d/m/Y') }}
+                            <br>
+                            {{ user.updatedAt|date('H:i:s') }}
                         </td>
                         <td>
                             <turbo-frame id="alter_user_{{ user.id }}">
