@@ -1,17 +1,18 @@
-
-
 function toggleLoading(toggle) {
 
     const tableTarget = document.querySelector('table');
     const spinnerTarget = document.getElementById('spinner');
+    const coverTarget = document.getElementById('cover');
 
     if (toggle){
         tableTarget.classList.add('loading');
         spinnerTarget.classList.remove('hidden');
+        coverTarget.classList.add('cover');
     }
     else{
         tableTarget.classList.remove('loading');
         spinnerTarget.classList.add('hidden');
+        coverTarget.classList.remove('cover');
     }
 }
 

@@ -41,7 +41,6 @@ class UserController extends AbstractController
             new TableColumn('created', 'Created', 'text-center', true, $basicSort),
             new TableColumn('updated', 'Updated', 'text-center', true, $basicSort)
         ];
-        
 
         if (!in_array($size, $allowedTableSize)){
             //error size not allowed

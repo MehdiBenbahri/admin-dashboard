@@ -7,8 +7,11 @@ html, body{
 }
 
 .wrapper {
-    padding: 5rem;
-    position: relative
+    @apply relative p-[5rem]
+}
+
+.cover {
+    @apply absolute blur-[1px] transition-all
 }
 
 .w-fit{
@@ -16,15 +19,7 @@ html, body{
 }
 
 .loading {
-    filter: blur(3px);
-}
-
-.loader {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    z-index: 10;
-    filter: none !important;
+    @apply absolute top-[50%] left-[50%] z-10 blur-sm transition-all
 }
 
 td, th {
