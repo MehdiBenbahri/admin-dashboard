@@ -20,12 +20,10 @@ document.addEventListener('turbo:before-prefetch', (event) => {
     Turbo.cache.clear();
 });
 
-document.addEventListener('turbo:before-visit', (event) => {
+document.addEventListener('turbo:before-fetch-response', (event) => {
     toggleLoading(true);
-    console.log('load')
 });
 
-document.addEventListener('turbo:before-visit', (event) => {
+document.addEventListener('turbo:visit', (event) => {
     toggleLoading(false);
-    console.log('unload')
 });
