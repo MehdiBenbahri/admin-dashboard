@@ -3,14 +3,17 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use App\Utils\AscStrategy;
+use App\Utils\DescStrategy;
+use App\Utils\Treatment;
+use App\Utils\Column;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\UX\Turbo\TurboBundle;
-use Utils\TableColumn;
-use Utils\Sort;
+
 
 class UserController extends AbstractController
 {
@@ -21,11 +24,21 @@ class UserController extends AbstractController
         $currentPage = intval($request->query->get('page')) ? intval($request->query->get('page')) : 1;
         $size = intval($request->query->get('size')) ? intval($request->query->get('size')) : 10;
         $allowedTableSize = [10,20,50,100];
-        $sortCol = $request->query->get('sort-col');
-        $sortAction = $request->query->get('sort-action');
 
-        $sortAsc = new \Sort('Croissant', 'asc', '<i class="bi bi-sort-alpha-down"></i>');
-        $sortDesc = new \Sort('Décroissant', 'desc', '<i class="bi bi-sort-alpha-up"></i>');
+
+        if (!in_array($size, $allowedTableSize)){
+            //error size not allowed
+            $size = 10;
+        }
+
+        $alias = 'u';
+        $customQueryBuilder = $userRepo->createQueryBuilder($alias);
+
+        $asc = new AscStrategy();
+        $desc = new DescStrategy();
+
+        $sortAsc = new Treatment('Croissant', $asc, '<i class="bi bi-sort-alpha-down"></i>', $customQueryBuilder);
+        $sortDesc = new Treatment('Décroissant', $desc, '<i class="bi bi-sort-alpha-up"></i>', $customQueryBuilder);
 
         $basicSort = [
             $sortAsc,
@@ -33,21 +46,18 @@ class UserController extends AbstractController
         ];
 
         $tableColumns = [
-            new TableColumn('id', '#', 'text-center', true, $basicSort),
-            new TableColumn('firstname', 'Firstname', 'text-center', true, $basicSort),
-            new TableColumn('lastname', 'Lastname', 'text-center', true, $basicSort),
-            new TableColumn('email', 'Email', 'text-center', true, $basicSort),
-            new TableColumn('banned', 'Banned', 'text-center', true, $basicSort),
-            new TableColumn('created', 'Created', 'text-center', true, $basicSort),
-            new TableColumn('updated', 'Updated', 'text-center', true, $basicSort)
+            new Column('id', '#', 'text-center', true, $basicSort, $request),
+            new Column('firstname', 'Firstname', 'text-center', true, $basicSort, $request),
+            new Column('lastname', 'Lastname', 'text-center', true, $basicSort, $request),
+            new Column('email', 'Email', 'text-center', true, $basicSort, $request),
+            new Column('banned', 'Banned', 'text-center', true, $basicSort, $request),
+            new Column('created', 'Created', 'text-center', true, $basicSort, $request),
+            new Column('updated', 'Updated', 'text-center', true, $basicSort, $request)
         ];
 
-        if (!in_array($size, $allowedTableSize)){
-            //error size not allowed
-            $size = 10;
+        foreach ($tableColumns as $column) {
+            $customQueryBuilder = $column->executeTreatment($customQueryBuilder, $alias);
         }
-
-        $customQueryBuilder = $userRepo->createQueryBuilder('u');
 
         $paginator = $userRepo->getPaginator($currentPage, $size, $customQueryBuilder);
 
