@@ -1,6 +1,6 @@
 <div class="flex justify-between align-center my-3">
 
-    <select onchange="tableSizeChange('{{ path('app_user') }}', this, {{ currentPage }})" class="form-select to-load shadow bg-light w-fit">
+    <select data-page="{{ currentPage }}" class="form-select select-page-size to-load shadow bg-light w-fit">
         {% for allowedSize in allowedTableSize %}
             <option value="{{ allowedSize }}" {% if size == allowedSize %} selected {% endif %}>{{ allowedSize }}</option>
         {% endfor %}
